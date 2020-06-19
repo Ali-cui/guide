@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<style>
+			#container {  width: 100%;
+				height: 100%;
+			}
+			.info-title {
+				color: white;
+				font-size: 14px;
+				background-color: #25A5F7;
+				line-height: 26px;
+				padding: 0px 0 0 6px;
+				font-weight: lighter;
+				letter-spacing: 1px
+			}
+			.info-image{
+				width: 200px;
+				align:middle;
+			}
+
+		</style>
+		<link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.css}" rel="stylesheet">
+
+		<!-- Custom styles for this template -->
+
+		<link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"/>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no"> 
+		<title>紧急求助</title>
+		<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.1&key=3d29bc48618d6474eb9ff8f6cf1834e4&plugin=AMap.Geocoder&plugin=AMap.AdvancedInfoWindow">
+
+		</script>
+		<script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+
+	</head>
+	<body>
+
+
+	<div class="container-fluid">
+		<div class="row">
+
+			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+				<form th:action="@{/guide/emergencyhandle/}+${session.touristid}" method="post">
+					<div class="form-group">
+						<label>姓名</label>
+						<input name="name" type="text" class="form-control"  th:value="${session.logintourist}">
+					</div>
+
+					<div class="form-group">
+						<label>身份证号</label>
+						<input name="touristid" type="text" class="form-control"  th:value="${session.touristid}">
+					</div>
+					<div class="form-group">
+						<label>经度</label>
+						<input name="longitude"type="text" class="form-control"  th:value="${location.getLongitude()}">
+					</div>
+					<div class="form-group">
+						<label>纬度</label>
+						<input name="latitude"type="text" class="form-control"    th:value="${location.getLatitude()}">
+					</div>
+
+					<div class="form-group">
+						<label>遇到的情况</label>
+						<input name="situation"type="text" class="form-control"  placeholder="简单描述您现在遇到的情况" >
+					</div>
+
+					<div class="form-group">
+						<label>需要的帮助</label>
+						<input name="assist" type="text"  class="form-control" placeholder="您需要什么帮助">
+					</div>
+					<button type="submit" class="btn btn-primary" onclick="remind()">提交</button>
+				</form>
+
+				</table>
+
+			</main>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JavaScript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script type="text/javascript" src="/static/asserts/js/jquery-3.2.1.slim.min.js" ></script>
+	<script type="text/javascript" src="/static/asserts/js/popper.min.js" ></script>
+	<script type="text/javascript" src="/static/asserts/js/bootstrap.min.js" ></script>
+
+	<!-- Icons -->
+	<script type="text/javascript" src="/static/asserts/js/feather.min.js" ></script>
+<script>
+	function remind() {
+		alert("您的求助已提交");
+
+	}
+</script>
+
+	</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<style>
+			#container {  width: 100%;
+				height: 100%;
+			}
+			.info-title {
+				color: white;
+				font-size: 14px;
+				background-color: #25A5F7;
+				line-height: 26px;
+				padding: 0px 0 0 6px;
+				font-weight: lighter;
+				letter-spacing: 1px
+			}
+			.info-image{
+				width: 200px;
+				align:middle;
+			}
+
+		</style>
+		<link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"/>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no"> 
+		<title>东华大学导览</title>
+		<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.1&key=3d29bc48618d6474eb9ff8f6cf1834e4&plugin=AMap.Geocoder&plugin=AMap.AdvancedInfoWindow">
+
+		</script>
+		<script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+
+	</head>
+	<body>
+		<div id="container"></div>
+	<div class='info'><a href="/guide/emergencyguide">紧急求助</a></div>
+<!--		<div th:replace  ="~{commons/guidecommons::guidebar}"></div>-->
+
+
+	</div>
+
+	</body>
+	
+	<script type="text/javascript">
+		var address='';//点击的地址名，也设置为全局变量
+		var infowindow1;//弹窗对象，设置为全局对象
+		//弹窗的窗口样式也设置为全局变量
+		var content1 = '<div class="info-title">东华大学导览系统</div><div class="info-content">' +
+				'<img src="https://webapi.amap.com/images/amap.jpg">' +
+				'高德是中国领先的数字地图内容、导航和位置服务解决方案提供商。'+address+'<br/>' +
+				'<p>语音导览</p>'+
+				'<audio src="http://localhost:8080/player" controls="controls"></audio>'+
+				'</div>'
+		;
+	  var map = new AMap.Map('container', {
+		  viewMode:'3D',
+	         zoom:11,//级别
+	         center: [121.215, 31.05543],//中心点坐标
+
+
+	     });
+
+
+	  map.plugin('AMap.Geolocation', function () {
+		  geolocation = new AMap.Geolocation({
+			  enableHighAccuracy: true,//是否使用高精度定位，默认:true
+			  timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+			  maximumAge: 0,           //定位结果缓存0毫秒，默认：0
+			  convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+			  showButton: true,        //显示定位按钮，默认：true
+			  buttonPosition: 'LB',    //定位按钮停靠位置，默认：'LB'，左下角
+			  buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+			  showMarker: true,        //定位成功后在定位到的位置显示点标记，默认：true
+			  showCircle: true,        //定位成功后用圆圈表示定位精度范围，默认：true
+			  panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+			  zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+		  });
+		  map.addControl(geolocation);
+		  geolocation.getCurrentPosition();
+		  AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+		  AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+	  });
+
+          var points=getLocationAndName();
+          console.log(points.length)
+		//循环次数
+		var times=points.length;
+
+         for (var i=0;i<times;i++) {
+			 var lnglat = points[i];
+			 var longit = lnglat.longitude;//lo是位置信息
+			 var latit=lnglat.latitude;
+			 var locationName=lnglat.addressname;
+			 var introduction=lnglat.introduction;
+			 //POI点
+			 var m1 = new AMap.Marker({
+				 position: [longit, latit],//位置
+				 icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_r.png"//图片
+			 });
+			 //marker点击事件
+			 AMap.event.addListener(m1,"click",function (e) {
+
+				 for(var i=0;i<times;i++){
+					 var weizhi = [points[i].longitude,points[i].latitude,points[i].addressname,points[i].introduction];
+                     console.log(weizhi);
+					 //判断点击点是否在POI点周围
+					 if(e.lnglat.getLng()<(parseFloat(weizhi[0])+0.0001)&&e.lnglat.getLng()>(parseFloat(weizhi[0])-0.0001)
+						 &&e.lnglat.getLat()<(parseFloat(weizhi[1])+0.0001)&&e.lnglat.getLat()>(parseFloat(weizhi[1])-0.0001)){
+					 	 address=weizhi[2];
+					 	 console.log(address);
+
+						 content1 = '<div class="info-title">东华大学导览系统</div><div class="info-content">' +
+								 '<a text-align= center href="http://localhost:8080/showimages/'+address+
+								 '" target="-blank" title="查看评价"><img class="info-image" src="http://localhost:8080/getimage/'+address+'"'+
+								 ' alt="'+address+'" href="http://localhost:8080/uploadimageindex">' +'<a/>'+
+								 '<br/>'+weizhi[3]+'<br/>' +
+								 '<audio id=audio src="http://localhost:8080/player/'+address+'" controls= "controls">'+'</div>'
+						 ;
+						 console.log(content1);
+						 infowindow1= new AMap.AdvancedInfoWindow({
+							 content: content1,
+							 offset: new AMap.Pixel(0, -30)
+						 });
+					 	alert("对了"+weizhi[2]);
+					 }
+				 }
+				 infowindow1.open(map,e.lnglat);
+			 });
+			 AMap.event.addListener(m1,"touchstart",function (e) {
+
+				 for(var i=0;i<times;i++){
+					 var weizhi = [points[i].longitude,points[i].latitude,points[i].addressname,points[i].introduction];
+					 console.log(weizhi);
+					 //判断点击点是否在POI点周围
+					 if(e.lnglat.getLng()<(parseFloat(weizhi[0])+0.0001)&&e.lnglat.getLng()>(parseFloat(weizhi[0])-0.0001)
+							 &&e.lnglat.getLat()<(parseFloat(weizhi[1])+0.0001)&&e.lnglat.getLat()>(parseFloat(weizhi[1])-0.0001)){
+						 address=weizhi[2];
+						 console.log(address);
+
+						 content1 = '<div class="info-title">东华大学导览系统</div><div class="info-content">' +
+								 '<a text-align= center href="http://localhost:8080/showimages/'+address+
+								 '" target="-blank" title="查看评价"><img class="info-image" src="http://localhost:8080/getimage/'+address+'"'+
+								 ' alt="'+address+'" href="http://localhost:8080/uploadimageindex">' +'<a/>'+
+								 '<br/>'+weizhi[3]+'<br/>' +
+								 '<audio id=audio src="http://localhost:8080/player/'+address+'" controls= "controls">'+'</div>'
+						 ;
+						 console.log(content1);
+						 infowindow1= new AMap.AdvancedInfoWindow({
+							 content: content1,
+							 offset: new AMap.Pixel(0, -30)
+						 });
+						 alert("对了"+weizhi[2]);
+					 }
+				 }
+				 infowindow1.open(map,e.lnglat);
+			 });
+			 map.add(m1);
+			 m1.setLabel({
+				 offset: new AMap.Pixel(20, 20),
+				 content: locationName
+			 });
+
+			 map.add(m1);
+			 m1.setLabel({
+				 offset: new AMap.Pixel(-50, 30),
+				 content: locationName
+			 });
+		 }
+	  var polygonOptions = {
+		  map: map,
+		  strokeColor: 'rgb(20,164,173)',
+		  strokeWeight: 2,
+		  fillColor: 'rgba(0,0,0)',
+		  //填充完全不透明
+		  fillOpacity: 1
+	  };
+	  // 外多边形坐标数组和内多边形坐标数组
+	  var pointers = {
+		  outer: [
+			  new AMap.LngLat(-360,90,true),
+			  new AMap.LngLat(-360,-90,true),
+			  new AMap.LngLat(360,-90,true),
+			  new AMap.LngLat(360,90,true)
+		  ],
+		  inner: [
+			  [121.209487,31.059868],
+			  [121.209487,31.055585],
+			  [121.209788,31.054703],
+			  [121.210024,31.054207],
+			  [121.210367,31.053324],
+			  [121.210667,31.052129],
+			  [121.210925,31.051137],
+			  [121.211054,31.049335],
+			  [121.221589,31.049298],
+			  [121.22146,31.059776],
+
+		  ]
+	  };
+	  var pathArray = [
+		  pointers.outer,
+		  pointers.inner
+	  ];
+	  var polygon = new AMap.Polygon(polygonOptions);
+	  polygon.setPath(pathArray);
+	  map.setFitView();
+
+	   //设置边界范围坐标
+	  function setBounds() {
+		  //通过 new AMap.Bounds(southWest:LngLat, northEast:LngLat) 或者 map.getBounds() 获得地图Bounds信息
+		  var mybounds = new AMap.Bounds([121.209455,31.049344], [121.221579,31.059712]);
+		  map.setBounds(mybounds);
+	  }
+	  setBounds();
+
+	  /*
+
+	   */
+    //导览弹窗
+
+		infowindow1= new AMap.AdvancedInfoWindow({
+		  content: content1,
+		  offset: new AMap.Pixel(0, -30)
+	  });
+
+		function getImage(address,imagedata) {
+			console.log("ajax获取图片");
+			$.ajax({
+				url:"http://localhost:8080/getimage/"+address,
+				type: "POST",
+				dataType: "binary",
+				processData: false,
+				async: false,
+				success: function(data){
+					console.log(data);
+					var src=data.code;
+					console.log(src)
+					imagedata="data:image/jpg;base64,"+src;
+					console.log(typeof (imagedata));
+				}
+			});
+
+		}
+		function getLocationAndName() {
+			var returndata=new Object();
+			$.post({
+				url: "http://localhost:8080/guide/getAllTouristPoint",
+				async: false,
+				success: function (data) {
+					console.log(data);
+					returndata=data;
+				}
+			});
+			return returndata;
+		}
+
+	</script>
+	<script type="text/javascript">
+
+
+	</script>
+</html>

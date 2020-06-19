@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>commmons</title>
+</head>
+<body>
+<h1 id="h1" onclick="click()" onblur="click()">哈哈哈</h1>
+
+
+
+</body>
+<script type="text/javascript">
+  function click(){
+      var h1= document.getElementById("h1");
+        var str="window.testapp.test()";
+         h1.innerText=str;
+  }
+  click();
+
+</script>
+</html>

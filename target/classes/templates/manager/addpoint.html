@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>添加POI点</title>
+		<!-- Bootstrap core CSS -->
+		<link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.css}" rel="stylesheet">
+
+		<!-- Custom styles for this template -->
+		<link href="asserts/css/dashboard.css" rel="stylesheet">
+		<style type="text/css">
+			/* Chart.js */
+			
+			@-webkit-keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			@keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			.chartjs-render-monitor {
+				-webkit-animation: chartjs-render-animation 0.001s;
+				animation: chartjs-render-animation 0.001s;
+			}
+		</style>
+	</head>
+	<script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+	<script>
+		setInterval("forhelp()",500);
+		function forhelp() {
+
+			$.ajax({
+				url: "http://localhost:8080/gethelpnumber/",
+				async:true,
+				type: 'get',
+				success: function (data) {
+					console.log(data);
+
+					if (data>0){
+						document.getElementById("help").innerText= "求助中心"+"("+data+")";
+						$('#help').css("color","red");
+
+					}
+				}
+			})
+		}
+	</script>
+
+	<body>
+		<div th:replace  ="~{commons/bar::topbar}"></div>
+
+		<div class="container-fluid">
+			<div class="row">
+			<div th:replace="commons/bar::#sidebar(activeUri='managepoint')"></div>
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+					<form th:action="@{/addpoint}" method="post">
+						<div class="form-group">
+							<label>景点名</label>
+							<input name="addressname"type="text" class="form-control"  placeholder="例：镜月湖">
+						</div>
+						<div class="form-group">
+							<label>纬度</label>
+							<input name="longitude" type="number" value = "120" max = "180"  min = "0"  step = "0.000001" οninput="clearNoNum(this)" class="form-control" placeholder="例：120">
+						</div>
+						<div class="form-group">
+							<label>经度</label>
+							<input name="latitude" type="number" value = "30" max = "90"  min = "0"  step = "0.000001" οninput="clearNoNum(this)" class="form-control" placeholder="例：30">
+						</div>
+<!--						<div class="form-group">-->
+<!--							<label>权限</label>-->
+<!--							<div class="form-check form-check-inline">-->
+<!--								<input class="form-check-input" type="radio" name="accesslevel" value="1">-->
+<!--								<label class="form-check-label">高</label>-->
+<!--							</div>-->
+<!--							<div class="form-check form-check-inline">-->
+<!--								<input class="form-check-input" type="radio" name="accesslevel" value="2">-->
+<!--								<label class="form-check-label">低</label>-->
+<!--							</div>-->
+<!--						</div>-->
+						<div class="form-group">
+							<label>类型</label>
+							 <select class="form‐control" name=type>  
+							    <!--提交的是部门id-->
+							       <option value="1">景点</option>         
+							       <option value="2">服务点</option>  
+							       </select>
+						</div>
+						<div class="form-group">
+							<label>景点介绍</label>
+							<input name="introduction" type="text"  class="form-control" placeholder="请输入介绍景点的文字">
+						</div>
+
+						<button type="submit" class="btn btn-primary">添加</button>
+					</form>
+
+						</table>
+					</div>
+				</main>
+			</div>
+		</div>
+
+		<!-- Bootstrap core JavaScript
+    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script type="text/javascript" src="/static/asserts/js/jquery-3.2.1.slim.min.js"></script>
+		<script type="text/javascript" src="/static/asserts/js/popper.min.js"></script>
+		<script type="text/javascript" src="/static/asserts/js/bootstrap.min.js"></script>
+
+		<!-- Icons -->
+		<script type="text/javascript" src="/static/asserts/js/feather.min.js"></script>
+		<script>
+			feather.replace()
+		</script>
+
+	</body>
+
+</html>

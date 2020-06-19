@@ -1,0 +1,609 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <link   href="/webjars/bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/asserts/css/dashboard.css" rel="stylesheet">
+    <style>
+        .button-primary:visited, .button-primary-flat:visited {
+            color: #FFF;
+        }
+        .button:visited {
+            color: #666;
+        }
+        .button-primary:visited, .button-primary-flat:visited {
+            color: #FFF;
+        }
+        .button:visited {
+            color: #666;
+        }
+        .showcase .button, .showcase .button-dropdown, .showcase .button-group {
+            margin: 5px;
+        }
+        a, a:visited {
+            color: #229ffd;
+        }
+        .button-small {
+            font-size: 12px;
+            height: 30px;
+            line-height: 30px;
+            padding: 0 30px;
+        }
+        .button-rounded {
+            border-radius: 4px;
+        }
+        .button-primary, .button-primary-flat {
+            background-color: #1B9AF7;
+            border-color: #1B9AF7;
+            color: #FFF;
+        }
+        .button {
+            color: #666;
+            background-color: #EEE;
+            border-color: #EEE;
+            font-weight: 300;
+            font-size: 16px;
+            font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            text-decoration: none;
+            text-align: center;
+            line-height: 40px;
+            height: 40px;
+            padding: 0 40px;
+            margin: 0;
+            display: inline-block;
+            appearance: none;
+            cursor: pointer;
+            border: none;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-transition-property: all;
+            transition-property: all;
+            -webkit-transition-duration: .3s;
+            transition-duration: .3s;
+        }
+        .button-small {
+            font-size: 12px;
+            height: 30px;
+            line-height: 30px;
+            padding: 0 30px;
+        }
+        .button-rounded {
+            border-radius: 4px;
+        }
+        .button-primary, .button-primary-flat {
+            background-color: #1B9AF7;
+            border-color: #1B9AF7;
+            color: #FFF;
+        }
+        .button {
+            color: #666;
+            background-color: #EEE;
+            border-color: #EEE;
+            font-weight: 300;
+            font-size: 16px;
+            font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            text-decoration: none;
+            text-align: center;
+            line-height: 40px;
+            height: 40px;
+            padding: 0 40px;
+            margin: 0;
+            display: inline-block;
+            appearance: none;
+            cursor: pointer;
+            border: none;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-transition-property: all;
+            transition-property: all;
+            -webkit-transition-duration: .3s;
+            transition-duration: .3s;
+        }
+        user agent stylesheet
+        a:-webkit-any-link {
+            color: -webkit-link;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .l-center {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .background-light {
+            color: #a9adb1;
+            background: #FFFFFF;
+        }
+        body {
+            margin: 0;
+            font-family: "proxima-nova", Helvetica, Verdana, Arial, "Lucida Grande", sans-serif;
+        }
+        html, button, input, select, textarea {
+            font-family: sans-serif;
+        }
+        html {
+            font-size: 100%;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        .test1 {
+
+            padding-left:5cm;
+        }
+        .review-details {
+            box-sizing: border-box;
+            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            margin-left: 100px;
+            position: relative;
+            zoom: 1;
+        }
+        .kg-rate-ct-review-item {
+            *zoom: 1;
+            position: relative;
+            list-style: none;
+            outline: 0;
+            padding: 10px;
+            border-bottom: 1px solid #D4D4D4;
+        }
+        li {
+             display: list-item;
+             text-align: -webkit-match-parent;
+         }
+        .kg-rate {
+            color: #404040;
+            clear: both;
+        }
+        body, button, input, select, textarea {
+            font: 12px/1.5 tahoma,arial,'Hiragino Sans GB','\5b8b\4f53',sans-serif;
+        }
+        .kg-rate-ct-review-item:before, .kg-rate-ct-review-item:after {
+            content: " ";
+            display: table;
+        }
+        .kg-rate-ct-review-item:before, .kg-rate-ct-review-item:after {
+            content: " ";
+            display: table;
+        }
+        .kg-rate-ct-review-item:after {
+            clear: both;
+        }
+        .from-whom {
+            float: left;
+            overflow: hidden;
+            width: 100px;
+            text-align: center;
+            line-height: 1.5;
+        }
+        div {
+            display: block;
+        }
+        .tb-tbcr-content {
+            font-size: 14px;
+            line-height: 1.4;
+            color: #3F3F3F;
+            word-wrap: break-word;
+        }
+        .kg-rate .tb-r-act-bar {
+            margin-top: 10px;
+        }
+        .kg-rate .tb-r-info {
+            float: left;
+            font-size: 12px;
+            color: #B0B0B0;
+        }
+        .kg-rate-ct-review-item .review-details {
+            box-sizing: border-box;
+            overflow: hidden;
+            margin-left: 100px;
+            position: relative;
+            zoom: 1;
+        }
+        .kg-rate-ct-review-item {
+            *zoom: 1;
+            position: relative;
+            list-style: none;
+            outline: 0;
+            padding: 10px;
+            border-bottom: 1px solid #D4D4D4;
+        }
+        ul.kg-photo-viewer-thumb-bar li.active {
+            border-color: #f60;
+            cursor: url(//img.alicdn.com/tps/i1/T1MQMFXgXcXXaSQP_X-16-16.png),url(//assets.alicdn.com/img/common/zoom_out.cur),auto;
+        }
+        .kg-photo-viewer-thumb-bar li {
+            float: left;
+            border: 2px solid #F0F0F0;
+            padding: 2px;
+            margin-right: 6px;
+            position: relative;
+            background-color: #FFF;
+            cursor: url(//img.alicdn.com/tps/i2/T1HqQGXgtcXXaSQP_X-16-16.png),url(//assets.alicdn.com/img/common/zoom_in.cur),auto;
+            -webkit-transition: border-color .3s ease-out;
+            -moz-transition: border-color .3s ease-out;
+            -o-transition: border-color .3s ease-out;
+            transition: border-color .3s ease-out;
+        }
+        blockquote, body, button, dd, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, hr, input, legend, li, ol, p, pre, td, textarea, th, ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            display: list-item;
+            text-align: -webkit-match-parent;
+        }
+        ul.kg-photo-viewer-thumb-bar {
+            list-style: none;
+            padding: 0;
+            *zoom: 1;
+        }
+        ol, ul {
+            list-style: none;
+        }
+
+        ul ul {
+            list-style-type: circle;
+        }
+
+        ul {
+            list-style-type: disc;
+        }
+        .kg-rate-ct-review-item {
+            *zoom: 1;
+            position: relative;
+            list-style: none;
+            outline: 0;
+            padding: 10px;
+            border-bottom: 1px solid #D4D4D4;
+        }
+
+
+        li {
+            text-align: -webkit-match-parent;
+        }
+        ul {
+            list-style: none;
+        }
+        .tb-r-date {
+            margin-right: 20px;
+            color: #B0B0B0;
+        }
+        .kg-rate .tb-r-info {
+            float: left;
+            font-size: 12px;
+            color: #B0B0B0;
+        }
+        .kg-rate-ct-review-item {
+            *zoom: 1;
+            position: relative;
+            list-style: none;
+            outline: 0;
+            padding: 10px;
+            border-bottom: 1px solid #D4D4D4;
+        }
+        .kg-rate .tb-rev-actions {
+            float: right;
+            margin-right: -1px;
+        }
+        .kg-rate .tb-rev-actions .tb-r-action-btn {
+            color: #36C;
+            cursor: pointer;
+        }
+        .tb-tbcr-num {
+            font: 12px/1.5 tahoma,arial;
+            color: #AAA;
+        }
+        .edui-editor-body {
+            border: 1px solid #ccc;
+            border-left-color: #9a9a9a;
+            border-top-color: #9a9a9a;
+        }
+        .from-whom .avatar {
+            width: 40px;
+            height: 40px;
+        }
+
+    </style>
+    <title>游客评价</title>
+</head>
+<script type="text/javascript">
+    document.getElementById("tjbutton").onclick= upload();
+        function upload() {
+            var path=window.location.pathname.split('/');
+            var addressname=path[2];
+            var formData = new FormData();
+            formData.append("mFile",$("#file")[0].files[0]);
+            $.ajax({
+                url: "http://localhost:8080/uploadcommentimage/"+addressname,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType:false,
+                xhr:function(){
+                    myXhr = $.ajaxSettings.xhr();
+                    if(myXhr.upload){ // check if upload property exists
+                        myXhr.upload.addEventListener('progress',function(e){
+                            var loaded = e.loaded;//已经上传大小情况
+                            var tot = e.total;//附件总大小
+                            var per = Math.floor(100*loaded/tot);  //已经上传的百分比
+                            $("#progress").html( per +"%" );
+                            $("#progress").css("width" , per +"%");
+                            console.log('附件总大小 = ' + loaded);
+                            console.log('已经上传大小 = ' + tot);
+                        }, false); // for handling the progress of the upload
+                    }
+                    return myXhr;
+                },
+                success : function(data) {
+                    console.log(data);
+                }
+            });
+        }
+
+
+
+</script>
+<script type="text/javascript" src="/static/asserts/js/jquery-3.2.1.slim.min.js" th:src="@{/static/asserts/js/jquery-3.2.1.slim.min.js}"></script>
+<script type="text/javascript" src="/static/asserts/js/popper.min.js" th:src="@{/static/asserts/js/popper.min.js}"></script>
+<script type="text/javascript" src="/static/asserts/js/bootstrap.min.js" th:src="@{/static/asserts/js/bootstrap.min.js}"></script>
+
+<!-- Icons -->
+<script type="text/javascript" src="/static/asserts/js/feather.min.js" th:src="@{/static/asserts/js/feather.min.js}"></script>
+<script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+    var path=window.location.pathname.split('/');
+    var addressname=path[2];
+    console.log(path);
+
+    function getImagetatal(){
+        var returnnumber=0;
+        //所有参数
+        //url:待载入页面的URL地址，JSON
+        //data：待发送Key/value参数
+        //success:载入成功时的回调函数
+        $.post({
+            url:"http://localhost:8080/getimagetotal/"+addressname,
+            async: false,
+            success:function(data) {
+                returnnumber=parseInt(data);
+                console.log("函数内"+returnnumber);
+            }
+        });
+        return returnnumber;
+    }
+
+    window.onload = function () {
+    addContent();
+
+
+        // 动态的添加content
+        function addContent() {
+
+            for (var i = 0; i < 1; i++) {
+                // 获取节点class="row"
+                var row = document.getElementById('main');
+                // 创建div元素节点，并设置其class="col-xs-6"
+                var contentul = document.createElement('ul');
+                row.appendChild(contentul);
+
+                var contentli = document.createElement('li');
+                contentli.className="J_KgRate_ReviewItem kg-rate-ct-review-item";
+                contentul.appendChild(contentli);
+                var contentdiv = document.createElement('div');
+                contentdiv.className="from-whom";
+                contentli.appendChild(contentdiv);
+                // 创建img节点,设置其src及class
+                var contentImg = document.createElement("img");
+                contentImg.src = "//wwc.alicdn.com/avatar/getAvatar.do?userIdStr=vFkSPFHuXH*evF8LPmHSXmg4P0k4Xm*-MGHWMFvLvF8yM8R-MC7IP8x4v8c4vGxG&width=40&height=40&type=sns"//"http://localhost:8080/showimage/"+addressname +"/"+ (i + 1) ;
+                contentImg.className = "avatar";
+                var contentdiv1=document.createElement('div');
+                contentdiv1.innerText='cuizhili';
+                contentdiv.appendChild(contentImg);
+                contentdiv.appendChild(contentdiv1);
+                var contentdivdetail=document.createElement('div');
+                contentdivdetail.className="review-details";
+                contentli.appendChild(contentdivdetail);
+                var contentdivitem=document.createElement('div');
+                contentdivitem.className="tb-rev-item ";
+                contentdivdetail.appendChild(contentdivitem);
+                var contentdivComment=document.createElement("div");
+                contentdivComment.className="J_KgRate_ReviewContent tb-tbcr-content";
+                contentdivComment.innerText="看图，这就是信息学院的大楼";
+                contentdivitem.appendChild(contentdivComment);
+
+                var contentMedia=document.createElement("div");
+                contentMedia.className="tb-rev-item-media";
+                contentdivitem.appendChild(contentMedia);
+                var contentli1=document.createElement("li");
+                contentMedia.appendChild(contentli1);
+                var contentimgComment=document.createElement("img");
+                contentimgComment.src="//img.alicdn.com/bao/uploaded/i3/O1CN01536Ojg28ZJjLObMu9_!!0-rate.jpg_400x400.jpg";
+                contentli1.appendChild(contentimgComment);
+
+                var contentdivTime=document.createElement("div");
+                contentdivTime.class='tb-r-act-bar';
+                contentdivitem.appendChild(contentdivTime);
+                var contentdivinfo=document.createElement("div");
+                contentdivinfo.className="tb-r-info";
+                contentdivTime.appendChild(contentdivinfo);
+                var span=document.createElement("span");
+                span.className="tb-r-date";
+                span.innerText="2020年03月30日 22:31";
+                contentdivinfo.appendChild(span);
+
+
+        }
+
+
+        }
+
+
+        // }
+
+
+
+    }
+    function submit(){
+        var txt=document.getElementById("txt");
+    }
+
+</script>
+<body>
+<div class="tb-revbd" id="main">
+    <ul >
+        <li id="review-1079035426812" class="J_KgRate_ReviewItem kg-rate-ct-review-item" tabindex="0">
+            <div class="from-whom">
+                <img class="avatar" src="//wwc.alicdn.com/avatar/getAvatar.do?userIdStr=vFkSPFHuXH*evF8LPmHSXmcyPGRevC8yMHlIPFRHPmIWv8RHOHx0XFxbvH8YPCgS&width=40&height=40&type=sns">
+                <div>崔志立</div>
+
+
+
+            </div>
+            <div class="review-details">
+
+
+                <div class="tb-rev-item " data-id="1079035426812">
+                    <div class="J_KgRate_ReviewContent tb-tbcr-content " data-spm-anchor-id="2013.1.0.i5.c0317793HDd3Gb">
+
+                       信息学院的新楼比较难找，第一层和旧楼不连通，比较难找，建议多加一些指示牌指示。
+                    </div>
+                    <div class="tb-rev-item-media">
+
+                        <ul data-spm-anchor-id="2013.1.0.i7.c0317793HDd3Gb">
+
+                            <li ><img mp4-src="" swf-src="" src="" data-spm-anchor-id="2013.1.0.i6.c0317793HDd3Gb"></li>
+
+
+
+                        </ul><div class="kg-photo-viewer-stage viewing-first" style="display: none; width: auto; height: auto;">
+
+                    </div>
+
+                    </div>
+
+                    <div class="tb-r-act-bar">
+                        <div class="tb-r-info">
+                            <span class="tb-r-date">2020年03月30日 22:18</span>
+                        </div>
+
+                        <ul class="tb-rev-actions">
+
+
+                            <li class="tb-rev-action">
+                                <span class="tb-r-action-btn" title="有 0 人认为此评论有用" data-act="markuseful" data-val="1079035426812">有用</span>
+                                <span class="J_KgRate_UsefulNum tb-tbcr-num">(0)</span>
+                            </li>
+
+
+                        </ul>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </li>
+        <li id="review-1079035426811" class="J_KgRate_ReviewItem kg-rate-ct-review-item" tabindex="0">
+            <div class="from-whom">
+                                <img class="avatar" src="//wwc.alicdn.com/avatar/getAvatar.do?userIdStr=vFkSPFHuXH*evF8LPmHSXmv0MHxGXF7zMCg0OmQYXmNWvHZeXFN4vCcLOmPIOHZI&width=40&height=40&type=sns">
+                <div>球球</div>
+
+
+
+            </div>
+            <div class="review-details">
+
+
+                <div class="tb-rev-item " data-id="1079035426812">
+                    <div class="J_KgRate_ReviewContent tb-tbcr-content " data-spm-anchor-id="2013.1.0.i5.c0317793HDd3Gb">
+
+                        信息学院整体比较整洁，游览体验很好。
+                    </div>
+                    <div class="tb-rev-item-media">
+
+                        <ul data-spm-anchor-id="2013.1.0.i7.c0317793HDd3Gb">
+
+                            <li ><img mp4-src="" swf-src="" src="" data-spm-anchor-id="2013.1.0.i6.c0317793HDd3Gb"></li>
+
+
+
+                        </ul><div class="kg-photo-viewer-stage viewing-first" style="display: none; width: auto; height: auto;">
+
+                    </div>
+
+                    </div>
+
+                    <div class="tb-r-act-bar">
+                        <div class="tb-r-info">
+                            <span class="tb-r-date">2020年03月31日 20:18</span>
+                        </div>
+
+                        <ul class="tb-rev-actions">
+
+
+                            <li class="tb-rev-action">
+                                <span class="tb-r-action-btn" title="有 0 人认为此评论有用" data-act="markuseful" data-val="1079035426812">有用</span>
+                                <span class="J_KgRate_UsefulNum tb-tbcr-num">(0)</span>
+                            </li>
+
+
+                        </ul>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </li>
+
+
+
+                </ul>
+
+            </div>
+
+
+        </div>
+
+    </div>
+    </ul>
+    </div>
+
+
+
+
+<div >
+    <table class="test1">
+        <form  method="post" >
+        <tr>
+            <td>
+                评论：
+            </td>
+            <td>
+                <textarea name="comment" style="width:200px; height:100px" id="txt"></textarea>
+            </td>
+        </tr>
+        </form>
+    </table>
+    <!--提交按钮-->
+    <div style="margin:0 ;padding-left:5cm;">
+        <input   type="file" id="file" name="mFile" >
+
+    </div>
+    <div style="margin:0 ;padding-left:5cm;">
+    <button type="submit" th:href="@{/guide/commentup/}+${addressname}" id="tjbutton" class="button button-primary button-rounded button-small" style="color: #3b25e6" class="btn btn-primary">评论</button>
+    </div>
+</div>
+
+</div>
+
+</body>
+
+</html>

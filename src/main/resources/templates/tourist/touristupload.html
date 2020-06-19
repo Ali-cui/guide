@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:text-align="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link  th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.css}"rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/asserts/css/dashboard.css" rel="stylesheet">
+
+    <script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+    <title>文件上传</title>
+    <style>
+        .test1 {
+
+            padding-left:12cm;
+        }
+        .progress{
+            padding: 20px;
+            width: 0%;
+        }
+        .myBtn{
+            padding: 5px 10px;
+            background: rgb(92,184,92);
+            color: #005cbf;
+            outline: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{commons/bar::topbar}"></div>
+
+<div class="test1">
+    <div class="row">
+        <div th:replace="commons/bar::#sidebar(activeUri='managepoint')"></div>
+<div>
+    <p th:value="${addressname}" id="addressname" >[[${addressname}]]</p>
+
+    <input type="hidden" th:value="${addressname}" id="hiddenname"/>
+
+</div>
+        <div class="table-responsive">
+<input   type="file" id="file" name="mFile">
+<button   id="myBtn" class="myBtn" >
+    新建图片
+</button>
+<button  id="myBtn1" class="myBtn" >
+    修改图片
+</button>
+<div class="progress">
+    <div class="progress-bar" id="progress" role="progressbar"  aria-valuenow="25" aria-valuemin="0"  aria-valuemax="100">0%</div>
+</div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    document.getElementById("myBtn").onclick=
+        function upload() {
+            console.log($('#hiddenname').val());
+            console.log("执行upload");
+            var formData = new FormData();
+            formData.append("mFile",$("#file")[0].files[0]);
+            $.ajax({
+                url: "http://localhost:8080/uploadimage/"+$('#hiddenname').val(),
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType:false,
+                xhr:function(){
+                    myXhr = $.ajaxSettings.xhr();
+                    if(myXhr.upload){ // check if upload property exists
+                        myXhr.upload.addEventListener('progress',function(e){
+                            var loaded = e.loaded;//已经上传大小情况
+                            var tot = e.total;//附件总大小
+                            var per = Math.floor(100*loaded/tot);  //已经上传的百分比
+                            $("#progress").html( per +"%" );
+                            $("#progress").css("width" , per +"%");
+                            console.log('附件总大小 = ' + loaded);
+                            console.log('已经上传大小 = ' + tot);
+                        }, false); // for handling the progress of the upload
+                    }
+                    return myXhr;
+                },
+                success : function(data) {
+                    console.log(data);
+                }
+            });
+        }
+
+
+
+</script>
+<script type="text/javascript" src="/static/asserts/js/jquery-3.2.1.slim.min.js" th:src="@{/static/asserts/js/jquery-3.2.1.slim.min.js}"></script>
+<script type="text/javascript" src="/static/asserts/js/popper.min.js" th:src="@{/static/asserts/js/popper.min.js}"></script>
+<script type="text/javascript" src="/static/asserts/js/bootstrap.min.js" th:src="@{/static/asserts/js/bootstrap.min.js}"></script>
+
+<!-- Icons -->
+<script type="text/javascript" src="/static/asserts/js/feather.min.js" th:src="@{/static/asserts/js/feather.min.js}"></script>
+</body>
+</html>

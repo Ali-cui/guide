@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>考勤管理</title>
+		<!-- Bootstrap core CSS -->
+		<link  th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.css}"rel="stylesheet">
+
+		<!-- Custom styles for this template -->
+		<link href="/static/asserts/css/dashboard.css" rel="stylesheet">
+		<style type="text/css">
+			/* Chart.js */
+			
+			@-webkit-keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			@keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			.chartjs-render-monitor {
+				-webkit-animation: chartjs-render-animation 0.001s;
+				animation: chartjs-render-animation 0.001s;
+			}
+		</style>
+	</head>
+	<script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+	<script>
+		setInterval("forhelp()",500);
+		function forhelp() {
+
+			$.ajax({
+				url: "http://localhost:8080/gethelpnumber/",
+				async:true,
+				type: 'get',
+				success: function (data) {
+					console.log(data);
+
+					if (data>0){
+						document.getElementById("help").innerText= "求助中心"+"("+data+")";
+						$('#help').css("color","red");
+
+					}
+				}
+			})
+		}
+	</script>
+
+	<body>
+		<div th:replace="~{commons/bar::topbar}"></div>
+
+		<div class="container-fluid">
+			<div class="row">
+			<div th:replace="commons/bar::#sidebar(activeUri='attendance')"></div>
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+					<h2><a class="btn btn-sm btn-success"  th:href="@{/manager}">上班打卡</a></h2>
+					<h2><a class="btn btn-sm btn-success"  th:href="@{/manager}">下班打卡</a></h2>
+					<div class="table-responsive">
+						<table class="table table-striped table-sm">
+							<thead>
+								<tr>
+									<th>姓名</th>
+									<th>工号</th>
+									<th>上班打卡时间 </th>
+									<th>下班打卡时间 </th>
+								</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td th:text="崔志立"></td>
+								<td>123456</td>
+								<td th:text="8点20分15"></td>
+								<td th:text="16点30分15"></td>
+							</tr>
+							<tr>
+								<td th:text="球球"></td>
+								<td>123</td>
+								<td th:text="8点25分16"></td>
+								<td th:text="16点31分31"></td>
+							</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</main>
+				<form id="deleteEmpForm" method="post" >
+				</form>
+			</div>
+		</div>
+
+		<!-- Bootstrap core JavaScript
+    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script type="text/javascript" src="/static/asserts/js/jquery-3.2.1.slim.min.js" th:src="@{/static/asserts/js/jquery-3.2.1.slim.min.js}"></script>
+		<script type="text/javascript" src="/static/asserts/js/popper.min.js" th:src="@{/static/asserts/js/popper.min.js}"></script>
+		<script type="text/javascript" src="/static/asserts/js/bootstrap.min.js" th:src="@{/static/asserts/js/bootstrap.min.js}"></script>
+
+		<!-- Icons -->
+		<script type="text/javascript" src="/static/asserts/js/feather.min.js" th:src="@{/static/asserts/js/feather.min.js}"></script>
+		<script>
+			feather.replace()
+		</script>
+
+		<!-- Graphs -->
+		<script type="text/javascript" src="/static/asserts/js/Chart.min.js" th:src="@{asserts/js/Chart.min.js}"></script>
+	<script>
+		$(".deleteBtn").click(function () {
+			//删除当前员工的
+			alert();
+			console.log($(this).attr("del_uri"));
+			$("#deleteEmpForm").attr("action",$(this).attr("del_uri")).submit();
+			return false;
+
+		});
+	</script>
+
+	</body>
+
+</html>
